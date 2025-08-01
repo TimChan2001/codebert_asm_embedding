@@ -1,0 +1,76 @@
+push ebp ; mov ebp , esp ; sub esp , 0x10 ; mov eax , [ ebp + 8 ] ; add eax , 5 ; leave ; ret
+mov eax , 1 ; mov ebx , 0 ; int 0x80
+xor eax , eax ; mov ecx , 0 ; loop_start : inc ecx ; cmp ecx , 10 ; jl loop_start ; ret
+push esi ; mov esi , edi ; lodsb ; cmp al , 0 ; jne loop ; pop esi ; ret
+mov eax , [ esp + 4 ] ; test eax , eax ; je .Lend ; call eax ; .Lend : ret
+mov eax , [ ebx + 4 ] ; add eax , 5 ; mov [ ebx + 4 ] , eax ; ret
+call printf ; mov eax , 0 ; ret
+jmp short done ; mov eax , 123 ; done : nop ; ret
+mov esi , [ ebp + 8 ] ; mov edi , [ ebp + 12 ] ; mov ecx , [ ebp + 16 ] ; rep movsb ; ret
+mov eax , [ fs : 0x30 ] ; mov eax , [ eax + 0x0C ] ; ret
+push eax ; push ebx ; call add_numbers ; add esp , 8 ; ret
+mov eax , [ edi ] ; cmp eax , 0 ; je zero ; dec eax ; zero : ret
+lea eax , [ ebx + ecx * 4 ] ; mov [ edx ] , eax ; ret
+push ebp ; mov ebp , esp ; mov eax , [ ebp + 8 ] ; imul eax , eax ; leave ; ret
+cmp eax , ebx ; jne not_equal ; mov ecx , 1 ; jmp done ; not_equal : mov ecx , 0 ; done : ret
+mov eax , [ ebp + 8 ] ; cmp eax , 0 ; jle .exit ; mov ebx , 1 ; .exit : ret
+mov eax , [ edx + 4 ] ; add eax , [ edx + 8 ] ; mov [ edx + 12 ] , eax ; ret
+pushad ; mov eax , 0 ; call _init ; popad ; ret
+xor edi , edi ; mov ecx , 20 ; rep stosb ; ret
+mov eax , ds ; mov es , eax ; ret
+call malloc ; test eax , eax ; jz alloc_fail ; ret
+mov eax , 0x1 ; mov ebx , 0x2 ; add eax , ebx ; ret
+cmp [ esp + 4 ] , 0 ; je .return_zero ; mov eax , 1 ; ret ; .return_zero : xor eax , eax ; ret
+mov eax , [ ebp + 8 ] ; sar eax , 2 ; ret
+mov eax , [ ecx ] ; add eax , [ edx ] ; ret
+mov eax , offset my_string ; call puts ; ret
+finit ; fld dword ptr [ esp + 4 ] ; fsqrt ; fstp dword ptr [ esp ] ; ret
+push ebp ; mov ebp , esp ; mov eax , [ ebp + 12 ] ; cdq ; idiv dword ptr [ ebp + 8 ] ; leave ; ret
+mov eax , [ eax ] ; cmp eax , 0 ; jne handle ; ret
+push eax ; call GetTickCount ; pop eax ; ret
+push 0x4 ; call Sleep ; add esp , 4 ; ret
+push edi ; xor edi , edi ; mov ecx , 10 ; rep stosd ; pop edi ; ret
+xor eax , eax ; .next : cmp [ esi + eax ] , 0 ; je .done ; inc eax ; jmp .next ; .done : ret
+cmp byte ptr [ eax ] , 0 ; je done ; inc eax ; jmp short cmp ; done : ret
+mov eax , [ ebx ] ; and eax , 0xFF ; cmp eax , 0x7F ; ret
+mov ecx , 4 ; xor eax , eax ; rep stosb ; ret
+push eax ; call _initialize ; add esp , 4 ; ret
+push ebp ; mov ebp , esp ; sub esp , 16 ; mov [ ebp - 4 ] , 0 ; leave ; ret
+mov eax , [ esi ] ; cmp eax , [ edi ] ; setg al ; movzx eax , al ; ret
+mov ecx , 8 ; xor eax , eax ; xor edi , edi ; rep stosd ; ret
+call check_user ; test al , al ; jz fail ; ret ; fail : xor eax , eax ; ret
+push ebp ; mov ebp , esp ; mov eax , [ ebp + 8 ] ; shl eax , 1 ; leave ; ret
+push esi ; mov esi , ecx ; call do_work ; mov ecx , esi ; pop esi ; ret
+mov eax , cr0 ; or eax , 1 ; mov cr0 , eax ; ret
+mov eax , [ eax + ecx * 4 ] ; add eax , edx ; ret
+cmp eax , 0 ; sete al ; movzx eax , al ; ret
+mov eax , [ fs : 0x18 ] ; mov eax , [ eax + 0x4 ] ; ret
+xor ecx , ecx ; mov cl , [ eax ] ; cmp cl , 0xA ; ret
+mov eax , 0xDEADBEEF ; call log_value ; ret
+push eax ; push ebx ; push ecx ; call do_something ; add esp , 12 ; ret
+lea edi , [ ebp - 100 ] ; mov ecx , 25 ; xor eax , eax ; rep stosd ; ret
+mov eax , 5 ; push eax ; call process ; pop eax ; ret
+mov eax , [ esp + 4 ] ; not eax ; ret
+cmp eax , 1 ; je one ; cmp eax , 2 ; je two ; jmp default ; one : mov ebx , 1 ; ret ; two : mov ebx , 2 ; ret ; default : xor ebx , ebx ; ret
+call get_time ; test eax , eax ; jnz valid ; xor eax , eax ; ret ; valid : ret
+mov eax , [ ebp + 8 ] ; and eax , 0xFF ; add eax , 1 ; leave ; ret
+mov ecx , [ esp + 4 ] ; shr ecx , 2 ; mov eax , ecx ; ret
+push eax ; call print_hex ; add esp , 4 ; ret
+xor eax , eax ; .loop : cmp byte ptr [ edi + eax ] , 0 ; je .end ; inc eax ; jmp .loop ; .end : ret
+push ebx ; push eax ; call memcpy ; add esp , 8 ; ret
+pushfd ; cli ; hlt ; ret
+call check_flag ; cmp al , 1 ; jne skip ; mov eax , 100 ; skip : ret
+cmp byte ptr [ esi ] , 0x00 ; sete al ; ret
+mov eax , [ eax + 4 ] ; push eax ; call free ; ret
+mov ebx , 0x10 ; xor eax , eax ; div ebx ; ret
+push eax ; call to_upper ; add esp , 4 ; ret
+push eax ; mov eax , fs:[0x30] ; mov eax , [ eax + 0x18 ] ; pop eax ; ret
+call _thread_start ; ret
+mov eax , [ edi + 0x14 ] ; cmp eax , 0 ; jne .skip ; mov eax , 1 ; .skip : ret
+mov al , [ edi ] ; mov [ esi ] , al ; inc edi ; inc esi ; ret
+xor edx , edx ; mov eax , 0x100 ; div ecx ; mov eax , edx ; ret
+push ebp ; mov ebp , esp ; mov eax , [ ebp + 8 ] ; add eax , [ ebp + 12 ] ; leave ; ret
+mov eax , [ esp ] ; test eax , eax ; setnz al ; movzx eax , al ; ret
+push eax ; call check_permission ; pop eax ; ret
+cmp eax , 10 ; jg high ; jl low ; mov eax , 0 ; ret ; high : mov eax , 1 ; ret ; low : mov eax , -1 ; ret
+push 0 ; call exit ; ret

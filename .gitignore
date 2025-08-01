@@ -1,0 +1,5 @@
+__pycache__/
+.ipynb_checkpoints/
+*.npy
+pretrained_model/
+print_vec.py

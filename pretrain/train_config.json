@@ -1,0 +1,7 @@
+{
+    "epochs": 3,
+    "batch_size": 16,
+    "mlm_probability": 0.15,
+    "max_length": 128
+  }
+  
